@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 For My Love</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 420px;
+  animation: fadeIn .8s ease;
+}
+
+.hidden { display: none; }
+
+button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.yes { background: #ff4d6d; color: white; }
+.no { background: #444; color: white; }
+
+.gallery img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.letter {
+  background: rgba(255,255,255,.2);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: left;
+  white-space: pre-line;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:scale(.9); }
+  to { opacity:1; transform:scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="lagu-kita.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="container" id="start">
+  <h1>🎁 Do you want to see your gift?</h1>
+  <p>Aku punya kejutan kecil buat kamu 💌</p>
+  <button class="yes" onclick="yesClick()">YES 💖</button>
+  <button class="no" onclick="noClick()">NO 😢</button>
+</div>
+
+<!-- PAGE SAD -->
+<div class="container hidden" id="sad">
+  <h1>🥺 Yahhh…</h1>
+  <p>Aku sedih… coba lagi dong 😭</p>
+  <button class="yes" onclick="tryAgain()">TRY AGAIN 🔁</button>
+</div>
+
+<!-- PAGE LOVE -->
+<div class="container hidden" id="love">
+  <h1>💖 Surpriseee 💖</h1>
+  <p>Kita sudah bersama selama:</p>
+  <h2 id="countdown"></h2>
+
+  <div class="gallery">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+  </div>
+
+  <div class="letter" id="letter"></div>
+</div>
+
+<script>
+/* ===== MUSIC ===== */
+function playMusic(){
+  const m = document.getElementById("bgMusic");
+  m.volume = 0.8;
+  m.play();
+}
+
+/* ===== PAGE FLOW ===== */
+function yesClick(){
+  playMusic();
+  hideAll();
+  document.getElementById("love").classList.remove("hidden");
+  startTyping();
+  startCountdown();
+}
+
+function noClick(){
+  hideAll();
+  document.getElementById("sad").classList.remove("hidden");
+}
+
+function tryAgain(){
+  hideAll();
+  document.getElementById("start").classList.remove("hidden");
+}
+
+function hideAll(){
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("sad").classList.add("hidden");
+  document.getElementById("love").classList.add("hidden");
+}
+
+/* ===== COUNTDOWN ===== */
+function startCountdown(){
+  const startDate = new Date("2023-06-01"); // GANTI TANGGAL JADIAN
+  setInterval(()=>{
+    const now = new Date();
+    const diff = now - startDate;
+    const days = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("countdown").innerText =
+      days + " hari bersama kamu 💕";
+  },1000);
+}
+
+/* ===== TYPEWRITER ===== */
+const text = `Hai kamu ❤️
+
+Makasih ya sudah hadir di hidup aku.
+Setiap hari sama kamu itu hadiah.
+Aku harap kita terus bareng,
+tertawa, berantem dikit,
+tapi selalu saling pulang 🤍
+
+Aku sayang kamu 🌹`;
+
+let i = 0;
+function startTyping(){
+  const el = document.getElementById("letter");
+  el.innerHTML = "";
+  i = 0;
+  const typing = setInterval(()=>{
+    if(i < text.length){
+      el.innerHTML += text.charAt(i);
+      i++;
+    } else clearInterval(typing);
+  },50);
+}
+</script>
+
+</body>
+</html>
